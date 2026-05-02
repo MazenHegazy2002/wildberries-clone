@@ -41,8 +41,8 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#f5f5f5;color:#222;font-
 /* CATEGORY BAR */
 .catbar{background:#fff;border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none;padding:0 20px}
 .catbar::-webkit-scrollbar{display:none}
-.citem{padding:10px 14px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;color:#444}
-.citem:hover{color:var(--p)}.citem.active{color:var(--p);border-bottom-color:var(--p)}
+.cbi{padding:10px 14px;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;color:#444;transition:all 0.2s ease}
+.cbi:hover{color:var(--p)}.cbi.active{color:var(--p);border-bottom-color:var(--p)}
 
 /* SIDE MENU OVERLAY */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:500}
@@ -428,20 +428,20 @@ footer{background:var(--dark);color:#999;padding:32px 20px;margin-top:32px}
 
 <!-- CATEGORY BAR -->
 <div class="catbar">
-  <div class="citem active" onclick="showPage('home');setcat(this)">Home</div>
-  <div class="citem" onclick="showCatalog('Women');setcat(this)">Women</div>
-  <div class="citem" onclick="showCatalog('Men');setcat(this)">Men</div>
-  <div class="citem" onclick="showCatalog('Kids');setcat(this)">Kids</div>
-  <div class="citem" onclick="showCatalog('Electronics');setcat(this)">Electronics</div>
-  <div class="citem" onclick="showCatalog('Home');setcat(this)">Home & Garden</div>
-  <div class="citem" onclick="showCatalog('Beauty');setcat(this)">Beauty</div>
-  <div class="citem" onclick="showCatalog('Sports');setcat(this)">Sports</div>
-  <div class="citem" onclick="showCatalog('Footwear');setcat(this)">Footwear</div>
-  <div class="citem" onclick="showCatalog('Appliances');setcat(this)">Appliances</div>
-  <div class="citem" onclick="showCatalog('Toys');setcat(this)">Toys</div>
-  <div class="citem" onclick="showCatalog('Groceries');setcat(this)">Groceries</div>
-  <div class="citem" onclick="showCatalog('Auto');setcat(this)">Auto</div>
-  <div class="citem" onclick="showPage('categories');setcat(this)">All Categories</div>
+  <div class="cbi active" onclick="showPage('home');setcb(this)">Home</div>
+  <div class="cbi" onclick="showCatalog('Women');setcb(this)">Women</div>
+  <div class="cbi" onclick="showCatalog('Men');setcb(this)">Men</div>
+  <div class="cbi" onclick="showCatalog('Kids');setcb(this)">Kids</div>
+  <div class="cbi" onclick="showCatalog('Electronics');setcb(this)">Electronics</div>
+  <div class="cbi" onclick="showCatalog('Home &amp; Garden');setcb(this)">Home & Garden</div>
+  <div class="cbi" onclick="showCatalog('Beauty');setcb(this)">Beauty</div>
+  <div class="cbi" onclick="showCatalog('Sports');setcb(this)">Sports</div>
+  <div class="cbi" onclick="showCatalog('Footwear');setcb(this)">Footwear</div>
+  <div class="cbi" onclick="showCatalog('Appliances');setcb(this)">Appliances</div>
+  <div class="cbi" onclick="showCatalog('Toys');setcb(this)">Toys</div>
+  <div class="cbi" onclick="showCatalog('Groceries');setcb(this)">Groceries</div>
+  <div class="cbi" onclick="showCatalog('Auto');setcb(this)">Auto</div>
+  <div class="cbi" onclick="showPage('categories');setcb(this)">All Categories</div>
 </div>
 
 <!-- ===== HOME ===== -->
@@ -845,12 +845,13 @@ function showPage(n){
   if(n==='profile')renderProfile();
   if(n==='categories')renderAllCats();
 }
-function setcat(el){document.querySelectorAll('.citem').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
+function setcb(el){document.querySelectorAll('.cbi').forEach(c=>c.classList.remove('active'));el.classList.add('active')}
 function showCatalog(cat){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-catalog').classList.add('active');
   document.getElementById('cat-title').textContent=cat;
-  catProds=PRODS.filter(p=>p.cat===cat||p.subcat===cat);
+  let c=cat;if(c==='Home & Garden')c='Home';
+  catProds=PRODS.filter(p=>p.cat===c||p.subcat===c||p.cat===cat||p.subcat===cat);
   if(!catProds.length)catProds=[...PRODS];
   document.getElementById('cat-count').textContent=catProds.length*47+' products found';
   document.getElementById('cat-bc').innerHTML=`<a onclick="showPage('home')">Home</a><span class="sep">›</span><span>${cat}</span>`;
